@@ -36,10 +36,10 @@ public class MyLinkedList {
         System.out.println("************************");
         System.out.println("Insert Menu");
         System.out.println("1.Insert at the beginning\n2.Insert at the end");
-        System.out.println("3.Insert Multiple elements\n4.Go back");
+        System.out.println("3.Insert at nth position\n4.Insert multiple elements\n5.Go back");
         System.out.println("************************");
         System.out.println("Delete Menu");
-        System.out.println("1.Delete at beginning\n2.Delete at the end\n3.Go back");
+        System.out.println("1.Delete at beginning\n2.Delete at the end\n3.Delete at nth position\n4.Go back");
         System.out.println("************************\n");
         System.out.println("Main Menu-Option:");
     }
@@ -90,9 +90,13 @@ public class MyLinkedList {
                 todo.insertLast(element2);
                 break;
             case 3:
+                System.out.println("Enter the value and position:");
+                int element3 = input.nextInt();
+                todo.insert(element3,input.nextInt());
+            case 4:
                 todo.superInsert();
                 break;
-            case 4:
+            case 5:
                 break;
             default:
                 System.out.println("Invalid Option");
@@ -110,6 +114,10 @@ public class MyLinkedList {
                 todo.deleteLast();
                 break;
             case 3:
+                System.out.println("Enter the position to delete: ");
+                todo.delete(input.nextInt());
+                break;
+            case 4:
                 break;
             default:
                 System.out.println("Invalid Option");
@@ -152,9 +160,25 @@ public class MyLinkedList {
             temp.pointer = tail;
         }
     }
+    public void insert(int value, int num){
+        if(num<=0 ) System.out.println("Specified index is invalid ");
+        else if(num==1) insertFirst(value);
+        Box newValue = new Box(value);
+        Box current = head;
+        int count = 1;
+        while(current!=null){
+            if(count+1==num){
+                newValue.pointer = current.pointer;
+                current.pointer = newValue;
+            }
+            count++;
+            current = current.pointer;
+        }
+        if(count>num) System.out.println("Invalid Index");
+    }
     public void superInsert() {
         System.out.println("Disclaimer : Element gets inserted at the end");
-        System.out.println("Press -999 to stop inserting");
+        System.out.println("Press -1 to stop inserting");
         System.out.println("Enter the elements:");
         int element = input.nextInt();
         while(element!=-999){
@@ -181,6 +205,7 @@ public class MyLinkedList {
             temp = head.pointer;
             head = temp;
         }
+        System.out.println("First element deleted");
     }
     public void deleteLast() {
         if(head==null){
@@ -195,5 +220,23 @@ public class MyLinkedList {
             tail = temp;
             tail.pointer = null;
         }
+        System.out.println("Last element deleted");
+    }
+    public void delete(int num){
+        int count = 1;
+        Box current  = head;
+        Box temp ;
+        while(current!=null){
+            if(count+1==num) {
+                temp = current.pointer;
+                current.pointer = temp.pointer;
+                System.out.println("Deleted element is "+temp.data);
+                break;
+            }
+            current = current.pointer;
+            count++;
+        }
+        if(count>num) System.out.println("Invalid Index");
+
     }
 }
